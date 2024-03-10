@@ -6,13 +6,21 @@
   "scripts": {
     "ts-node": "ts-node",
     "tsc": "tsc",
-    "clean:tsc": "rm -rf dist"
+    "clean:tsc": "rm -rf dist",
+    "test": "jest",
+    "test:watch": "jest --watchAll --testRegex='.*.(spec|test).ts$'",
+    "test:unit": "jest --coverage --collectCoverageFrom=src/**/*.ts --testRegex='.*.spec.ts$'",
+    "test:integration": "jest --coverage --collectCoverageFrom=src/**/*.ts --testRegex='.*.test.ts$'"
   },
   "keywords": [],
   "author": "Matheus Mota",
   "license": "ISC",
   "devDependencies": {
+    "@swc/core": "^1.4.6",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^29.5.12",
     "@types/node": "14.17.6",
+    "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }
