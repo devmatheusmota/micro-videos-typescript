@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "clean:tsc": "rm -rf dist",
     "test": "jest",
-    "test:watch": "jest --watchAll --testRegex='.*.(spec|test).ts$'",
+    "test:watch": "jest --watch --testRegex='.*.(spec|test).ts$'",
     "test:unit": "jest --coverage --collectCoverageFrom=src/**/*.ts --testRegex='.*.spec.ts$'",
     "test:integration": "jest --coverage --collectCoverageFrom=src/**/*.ts --testRegex='.*.test.ts$'"
   },

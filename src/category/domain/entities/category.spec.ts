@@ -1,4 +1,4 @@
-import { validate as validateUUID } from "uuid";
+import { UniqueEntityId } from "../../../shared/domain/value-objects/unique-entity-id";
 import { Category, CategoryProps } from "./category";
 describe("Category Unit Tests", () => {
   describe("Category Constructor", () => {
@@ -103,7 +103,7 @@ describe("Category Unit Tests", () => {
     });
 
     test("if id is generated if not provided", () => {
-      type CategoryData = { props: CategoryProps; id?: string };
+      type CategoryData = { props: CategoryProps; id?: UniqueEntityId };
       const data: CategoryData[] = [
         { props: { name: "Category 1" } },
         { props: { name: "Category 2" }, id: null },
@@ -113,12 +113,12 @@ describe("Category Unit Tests", () => {
       for (const item of data) {
         const category = new Category(item.props, item.id);
         expect(category.id).toBeDefined();
-        expect(validateUUID(category.id)).toBeTruthy();
+        expect(category.id).toBeInstanceOf(UniqueEntityId);
       }
     });
 
     test("if id is set if provided", () => {
-      const id = "123e4567-e89b-12d3-a456-426614174000";
+      const id = new UniqueEntityId("123e4567-e89b-12d3-a456-426614174000");
       const category = new Category({ name: "Category 1" }, id);
       expect(category.id).toBe(id);
     });
