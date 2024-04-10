@@ -12,6 +12,7 @@ const config: Config = {
     "^.+\\.ts?$": "@swc/jest",
   },
   testEnvironment: "node",
+  testPathIgnorePatterns: [".history"],
 };
 
 export default config;
