@@ -13,11 +13,11 @@ export class Category extends Entity<CategoryProps> {
     super(props, id);
   }
 
-  get name() {
+  get name(): string {
     return this.props.name;
   }
 
-  get description() {
+  get description(): string {
     return this.props.description;
   }
 
@@ -25,15 +25,24 @@ export class Category extends Entity<CategoryProps> {
     this.props.description = value ?? null;
   }
 
-  get is_active() {
+  get is_active(): boolean {
     return this.props.is_active;
+  }
+
+  private set name(name: string) {
+    this.props.name = name;
   }
 
   private set is_active(value: boolean) {
     this.props.is_active = value ?? true;
   }
 
-  get created_at() {
+  get created_at(): Date {
     return this.props.created_at;
+  }
+
+  update(name: string, description: string): void {
+    this.name = name;
+    this.description = description;
   }
 }
