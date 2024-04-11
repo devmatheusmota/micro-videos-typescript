@@ -113,14 +113,31 @@ describe("Category Unit Tests", () => {
       for (const item of data) {
         const category = new Category(item.props, item.id);
         expect(category.id).toBeDefined();
-        expect(category.id).toBeInstanceOf(UniqueEntityId);
+        expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
       }
     });
 
     test("if id is set if provided", () => {
       const id = new UniqueEntityId("123e4567-e89b-12d3-a456-426614174000");
       const category = new Category({ name: "Category 1" }, id);
-      expect(category.id).toBe(id);
+      expect(category.id).toBe(id.value);
     });
+  });
+
+  it("should be able to update name and description", () => {
+    const arrange = {
+      name: "initial_name",
+      description: "initial_description",
+      created_at: new Date(),
+      is_active: true,
+    };
+
+    const sut = new Category(arrange);
+
+    sut.update("another_name", "another_description");
+    expect(sut.name).not.toBe("initial_name");
+    expect(sut.name).toBe("another_name");
+    expect(sut.description).not.toBe("initial_description");
+    expect(sut.description).toBe("another_description");
   });
 });

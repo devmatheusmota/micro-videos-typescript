@@ -5,7 +5,6 @@ export abstract class Entity<Props> {
 
   constructor(public readonly props: Props, id?: UniqueEntityId) {
     this.uniqueEntityId = id || new UniqueEntityId();
-    Object.assign(this, this.props);
   }
 
   get id(): string {
