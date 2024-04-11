@@ -140,4 +140,22 @@ describe("Category Unit Tests", () => {
     expect(sut.description).not.toBe("initial_description");
     expect(sut.description).toBe("another_description");
   });
+
+  it("should be able to active a category and should throw an error when it is already activated", () => {
+    const sut = new Category({ name: "Test Category", is_active: false });
+
+    sut.activate();
+
+    expect(sut.is_active).toBe(true);
+    expect(() => sut.activate()).toThrow();
+  });
+
+  it("should be able to deactivate a cateroy and should throw an error when it is already inactive", () => {
+    const sut = new Category({ name: "Teste Category", is_active: true });
+
+    sut.deactivate();
+
+    expect(sut.is_active).toBe(false);
+    expect(() => sut.deactivate()).toThrow();
+  });
 });

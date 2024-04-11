@@ -48,4 +48,15 @@ export class Category extends Entity<CategoryProps> {
     this.name = name;
     this.description = description;
   }
+
+  activate(): void {
+    if (this.is_active === true) throw new Error("Category is already active!");
+    this.props.is_active = true;
+  }
+
+  deactivate(): void {
+    if (this.is_active === false)
+      throw new Error("Category is already inactive.");
+    this.props.is_active = false;
+  }
 }
