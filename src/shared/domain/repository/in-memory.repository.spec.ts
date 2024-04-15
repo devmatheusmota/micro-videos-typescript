@@ -23,7 +23,7 @@ describe("InMemoryRepository Unit Tests", () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     await repository.insert(entity);
 
-    expect(entity.toJSON()).toStrictEqual(repository.entities[0].toJSON());
+    expect(entity).toStrictEqual(repository.entities[0]);
   });
 
   it("should throw error when entity is not found", async () => {
@@ -42,10 +42,16 @@ describe("InMemoryRepository Unit Tests", () => {
   });
 
   it("should get one entity by id", async () => {
-    const entity1 = new StubEntity({ name: "name value 1", price: 5 });
-    await repository.insert(entity1);
+    const entity = new StubEntity({ name: "name value 1", price: 5 });
+    await repository.insert(entity);
 
-    expect(await repository.findById(entity1.id)).toStrictEqual(entity1);
+    let entityFound = await repository.findById(entity.id);
+
+    expect(entityFound).toStrictEqual(entity);
+
+    entityFound = await repository.findById(entity.uniqueEntityId);
+
+    expect(entityFound).toStrictEqual(entity);
   });
 
   it("should return an empty array if no entities were found", async () => {
@@ -63,20 +69,38 @@ describe("InMemoryRepository Unit Tests", () => {
     expect(entities).toStrictEqual([entity1, entity2]);
   });
 
+  it("should throw an error on update if entity does not exists", async () => {
+    try {
+      await repository.update(
+        new StubEntity({ name: "test", price: 5 }, new UniqueEntityId())
+      );
+    } catch (error) {
+      expect(error).toBeInstanceOf(NotFoundError);
+    }
+  });
+
   it("should be able to update an entity", async () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     await repository.insert(entity);
 
-    const updateEntityParams = new StubEntity(
+    const updatedEntity = new StubEntity(
       { name: "changed value", price: 15 },
       entity.uniqueEntityId
     );
 
-    await repository.update(updateEntityParams);
+    await repository.update(updatedEntity);
 
-    const updatedEntity = await repository.findById(entity.id);
+    expect(updatedEntity.toJSON()).toStrictEqual(
+      repository.entities[0].toJSON()
+    );
+  });
 
-    expect(updatedEntity).toStrictEqual(updateEntityParams);
+  it("should throw an error on delete if entity does not exists", async () => {
+    try {
+      await repository.delete(new UniqueEntityId());
+    } catch (error) {
+      expect(error).toBeInstanceOf(NotFoundError);
+    }
   });
 
   it("should be able to delete an entity", async () => {
@@ -87,6 +111,12 @@ describe("InMemoryRepository Unit Tests", () => {
 
     await repository.delete(entity.id);
 
-    expect(await repository.findAll()).toHaveLength(0);
+    expect(repository.entities).toHaveLength(0);
+
+    await repository.insert(entity);
+
+    await repository.delete(entity.uniqueEntityId);
+
+    expect(repository.entities).toHaveLength(0);
   });
 });
