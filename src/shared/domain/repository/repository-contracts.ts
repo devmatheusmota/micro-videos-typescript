@@ -73,7 +73,7 @@ export class SearchParams {
 
   private set sort_dir(value: string) {
     if (!this._sort_dir) {
-      this.sort_dir = null;
+      this._sort_dir = null;
       return;
     }
 
