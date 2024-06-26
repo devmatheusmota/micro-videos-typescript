@@ -40,7 +40,7 @@ export class SearchParams {
 
   private set page(value: number) {
     let _page = parseInt(value as any);
-    if (Number.isNaN(_page) || _page <= 0) {
+    if (isNaN(_page) || _page <= 0) {
       _page = 1;
     }
     this._page = _page;
@@ -52,7 +52,7 @@ export class SearchParams {
 
   private set per_page(value: number) {
     let _per_page = parseInt(value as any);
-    if (Number.isNaN(_per_page) || _per_page <= 0) {
+    if (isNaN(_per_page) || _per_page <= 0) {
       _per_page = this._per_page;
     }
     this._per_page = _per_page;
